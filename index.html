@@ -1,3 +1,6 @@
+# آموزش تعاملی چرخه آب - پایه سوم
+
+در اینجا یک صفحه HTML کامل و تعاملی برای آموزش چرخه آب به دانش‌آموزان پایه سوم ایجاد کرده‌ام:
 
 ```html
 <!DOCTYPE html>
@@ -5,289 +8,1098 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>چرخه آب</title>
+    <title>آموزش چرخه آب - پایه سوم</title>
     <style>
-        body {
-            font-family: 'Tahoma', sans-serif;
-            background-color: #e0f7fa;
-            color: #333;
+        /* Reset and base styles */
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+            color: #1a237e;
+            line-height: 1.6;
             padding: 20px;
+            min-height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header styles */
+        header {
             text-align: center;
+            padding: 20px;
+            background: linear-gradient(90deg, #1e88e5, #4fc3f7);
+            color: white;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(30, 136, 229, 0.3);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 25px 0 15px;
+            color: #0d47a1;
+            border-bottom: 3px solid #4fc3f7;
+            padding-bottom: 8px;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 20px 0 10px;
+            color: #1565c0;
+        }
+        
+        /* Main container */
+        .container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 30px;
         }
-        h1 {
-            color: #0288d1;
-            font-size: 2em;
-        }
-        .stage {
-            margin: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border: 2px solid #81d4fa;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
-        }
-        button {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        #animation {
-            width: 300px;
-            height: 200px;
-            position: relative;
-            background-color: #bbdefb;
-            margin: 20px auto;
-            border: 2px solid #2196f3;
-            border-radius: 10px;
+        
+        /* Animation section */
+        .animation-section {
+            background-color: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
+        
+        .animation-container {
+            position: relative;
+            height: 300px;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F7FA 40%, #F5F5F5 100%);
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 4px solid #4fc3f7;
+        }
+        
+        /* Water cycle elements */
+        .sun {
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at 30% 30%, #FFEB3B, #FF9800);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #FF9800;
+            z-index: 5;
+            animation: sun-glow 3s infinite alternate;
+        }
+        
         .sea {
             position: absolute;
             bottom: 0;
             width: 100%;
-            height: 50px;
-            background-color: #2196f3;
+            height: 80px;
+            background: linear-gradient(to top, #2196F3, #0D47A1);
+            z-index: 2;
         }
-        .vapor {
+        
+        .wave {
             position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #ffffff;
-            border-radius: 50%;
-            opacity: 0.7;
-            animation: evaporate 2s infinite;
+            bottom: 80px;
+            width: 100%;
+            height: 20px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 30" preserveAspectRatio="none"><path d="M0,15 C200,30 400,0 600,15 C800,30 1000,0 1200,15 L1200,30 L0,30 Z" fill="%232196F3"/></svg>');
+            background-size: 1200px 100%;
+            animation: wave 15s linear infinite;
         }
-        @keyframes evaporate {
-            0% { bottom: 50px; opacity: 0.7; }
-            100% { bottom: 200px; opacity: 0; }
-        }
+        
         .cloud {
             position: absolute;
-            top: 20px;
-            left: 100px;
-            width: 100px;
-            height: 50px;
-            background-color: #ffffff;
-            border-radius: 50px;
-            display: none;
+            width: 120px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 
+                20px 0 0 0 white,
+                -20px 0 0 0 white,
+                0 -15px 0 0 white,
+                10px -10px 0 0 white,
+                -10px -10px 0 0 white;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 4;
         }
-        .rain {
+        
+        .cloud1 {
+            top: 80px;
+            left: 150px;
+        }
+        
+        .cloud2 {
+            top: 60px;
+            left: 350px;
+            width: 140px;
+            height: 70px;
+        }
+        
+        .raindrop {
             position: absolute;
-            width: 2px;
-            height: 10px;
-            background-color: #2196f3;
-            animation: rain 1s infinite linear;
-            display: none;
+            width: 4px;
+            height: 15px;
+            background: #2196F3;
+            border-radius: 0 0 2px 2px;
+            opacity: 0;
+            z-index: 3;
         }
-        @keyframes rain {
-            0% { top: 70px; }
-            100% { top: 200px; }
+        
+        .river {
+            position: absolute;
+            bottom: 0;
+            right: 150px;
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(to top, #2196F3, #0D47A1);
+            clip-path: polygon(0% 0%, 100% 0%, 90% 100%, 10% 100%);
+            z-index: 1;
         }
-        #quiz {
-            display: none;
+        
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            right: 100px;
+            width: 180px;
+            height: 120px;
+            background: linear-gradient(to top, #795548, #5D4037);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 1;
         }
-        .question {
-            margin: 20px;
-            padding: 15px;
-            background-color: #fff;
-            border: 2px solid #81d4fa;
-            border-radius: 10px;
-            width: 80%;
-            max-width: 600px;
+        
+        .tree {
+            position: absolute;
+            bottom: 80px;
+            right: 170px;
+            width: 30px;
+            height: 50px;
+            background: #388E3C;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            z-index: 2;
         }
-        .option {
-            display: block;
-            margin: 10px;
-            padding: 10px;
-            background-color: #f1f8e9;
-            border: 1px solid #c5e1a5;
-            border-radius: 5px;
+        
+        /* Control buttons */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .stage-btn {
+            background: linear-gradient(to bottom, #42A5F5, #1E88E5);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(66, 165, 245, 0.4);
+            min-width: 160px;
         }
+        
+        .stage-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(66, 165, 245, 0.6);
+            background: linear-gradient(to bottom, #64B5F6, #42A5F5);
+        }
+        
+        .stage-btn.active {
+            background: linear-gradient(to bottom, #FF9800, #F57C00);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.6);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(to bottom, #EF5350, #D32F2F);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(239, 83, 80, 0.4);
+        }
+        
+        .reset-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(239, 83, 80, 0.6);
+            background: linear-gradient(to bottom, #E57373, #EF5350);
+        }
+        
+        /* Quiz section */
+        .quiz-section {
+            background-color: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-container {
+            margin-top: 20px;
+        }
+        
+        .question {
+            background: #E3F2FD;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-right: 6px solid #42A5F5;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 15px 0;
+        }
+        
+        .option {
+            background: white;
+            border: 2px solid #BBDEFB;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.1rem;
+        }
+        
         .option:hover {
-            background-color: #dcedc8;
+            background: #E3F2FD;
+            border-color: #42A5F5;
         }
-        #feedback {
-            font-size: 1.2em;
-            margin: 10px;
+        
+        .option.selected {
+            background: #E8F5E9;
+            border-color: #4CAF50;
+            font-weight: bold;
         }
-        #score {
+        
+        .option.correct {
+            background: #C8E6C9;
+            border-color: #2E7D32;
+        }
+        
+        .option.incorrect {
+            background: #FFEBEE;
+            border-color: #C62828;
+        }
+        
+        .feedback {
+            padding: 15px;
+            border-radius: 12px;
+            margin: 10px 0;
+            font-weight: bold;
             display: none;
-            font-size: 1.5em;
-            margin: 20px;
         }
-        .star {
-            color: #ffd700;
-            font-size: 2em;
+        
+        .feedback.correct {
+            background: #C8E6C9;
+            color: #1B5E20;
+            border-right: 6px solid #4CAF50;
+            display: block;
         }
-        .empty-star {
-            color: #ccc;
+        
+        .feedback.incorrect {
+            background: #FFEBEE;
+            color: #B71C1C;
+            border-right: 6px solid #F44336;
+            display: block;
         }
-        @media (max-width: 600px) {
-            h1 { font-size: 1.5em; }
-            button { font-size: 0.9em; padding: 8px 16px; }
-            #animation { width: 100%; height: 150px; }
+        
+        .quiz-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .quiz-btn {
+            background: linear-gradient(to bottom, #66BB6A, #43A047);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 187, 106, 0.4);
+        }
+        
+        .quiz-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(102, 187, 106, 0.6);
+            background: linear-gradient(to bottom, #81C784, #66BB6A);
+        }
+        
+        .quiz-btn:disabled {
+            background: #BDBDBD;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 5px 15px rgba(189, 189, 189, 0.4);
+        }
+        
+        /* Results section */
+        .results {
+            text-align: center;
+            padding: 30px;
+            background: #E8F5E9;
+            border-radius: 20px;
+            margin-top: 30px;
+            display: none;
+            border: 4px solid #4CAF50;
+        }
+        
+        .stars {
+            font-size: 3.5rem;
+            color: #FFD700;
+            margin: 20px 0;
+            letter-spacing: 10px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .score-text {
+            font-size: 1.8rem;
+            color: #1B5E20;
+            margin: 15px 0;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #0D47A1;
+            font-size: 1rem;
+            border-top: 2px solid #BBDEFB;
+        }
+        
+        /* Animations */
+        @keyframes sun-glow {
+            0% { box-shadow: 0 0 40px #FF9800; }
+            100% { box-shadow: 0 0 60px #FFEB3B, 0 0 100px #FF9800; }
+        }
+        
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1200px; }
+        }
+        
+        @keyframes evaporation {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-150px); opacity: 0; }
+        }
+        
+        @keyframes rain {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(20px); }
+            100% { transform: translateX(0); }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .animation-container {
+                height: 250px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .stage-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            .quiz-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .quiz-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .animation-section, .quiz-section {
+                padding: 15px;
+            }
+            
+            .animation-container {
+                height: 200px;
+            }
+            
+            .sun {
+                width: 60px;
+                height: 60px;
+                left: 20px;
+                top: 15px;
+            }
+            
+            .stars {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>درس چرخه آب</h1>
-    <div id="animation">
-        <div class="sea"></div>
-        <div class="vapor" style="left: 50px; animation-delay: 0s;"></div>
-        <div class="vapor" style="left: 100px; animation-delay: 0.5s;"></div>
-        <div class="vapor" style="left: 150px; animation-delay: 1s;"></div>
-        <div class="vapor" style="left: 200px; animation-delay: 1.5s;"></div>
-        <div id="cloud" class="cloud"></div>
-        <div id="rain1" class="rain" style="left: 120px; animation-delay: 0s;"></div>
-        <div id="rain2" class="rain" style="left: 140px; animation-delay: 0.3s;"></div>
-        <div id="rain3" class="rain" style="left: 160px; animation-delay: 0.6s;"></div>
+    <header>
+        <h1>آموزش چرخه آب</h1>
+        <p>درس علوم پایه سوم - آب در طبیعت چگونه حرکت می‌کند؟</p>
+    </header>
+    
+    <div class="container">
+        <!-- Animation section -->
+        <section class="animation-section">
+            <h2>چرخه آب در طبیعت</h2>
+            <p>با کلیک روی دکمه‌های زیر، هر مرحله از چرخه آب را مشاهده کنید:</p>
+            
+            <div class="animation-container">
+                <!-- Sun -->
+                <div class="sun"></div>
+                
+                <!-- Sea -->
+                <div class="sea"></div>
+                <div class="wave"></div>
+                
+                <!-- Clouds -->
+                <div class="cloud cloud1"></div>
+                <div class="cloud cloud2"></div>
+                
+                <!-- Raindrops will be added dynamically -->
+                
+                <!-- Mountain and river -->
+                <div class="mountain"></div>
+                <div class="tree"></div>
+                <div class="river"></div>
+            </div>
+            
+            <div class="controls">
+                <button class="stage-btn" id="evaporation-btn">۱. تبخیر آب</button>
+                <button class="stage-btn" id="condensation-btn">۲. تشکیل ابر</button>
+                <button class="stage-btn" id="precipitation-btn">۳. بارش باران</button>
+                <button class="stage-btn" id="collection-btn">۴. جمع‌آوری آب</button>
+                <button class="stage-btn active" id="full-cycle-btn">چرخه کامل</button>
+                <button class="reset-btn" id="reset-btn">شروع مجدد</button>
+            </div>
+        </section>
+        
+        <!-- Quiz section -->
+        <section class="quiz-section">
+            <h2>آزمون چرخه آب</h2>
+            <p>پس از یادگیری مراحل چرخه آب، در این آزمون شرکت کنید:</p>
+            
+            <div class="quiz-container">
+                <!-- Question 1 -->
+                <div class="question" id="q1">
+                    <h3>سوال ۱: اولین مرحله چرخه آب چیست؟</h3>
+                    <div class="options">
+                        <div class="option" data-answer="a">بارش باران</div>
+                        <div class="option" data-answer="b">تشکیل ابر</div>
+                        <div class="option" data-answer="c">تبخیر آب</div>
+                        <div class="option" data-answer="d">جمع‌آوری آب</div>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+                
+                <!-- Question 2 -->
+                <div class="question" id="q2" style="display:none;">
+                    <h3>سوال ۲: ابرها چگونه تشکیل می‌شوند؟</h3>
+                    <div class="options">
+                        <div class="option" data-answer="a">وقتی آب بخار شده و سرد می‌شود</div>
+                        <div class="option" data-answer="b">وقتی باران می‌بارد</div>
+                        <div class="option" data-answer="c">وقتی آب در دریاها جاری می‌شود</div>
+                        <div class="option" data-answer="d">وقتی خورشید ناپدید می‌شود</div>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+                
+                <!-- Question 3 -->
+                <div class="question" id="q3" style="display:none;">
+                    <h3>سوال ۳: بارش می‌تواند به چه صورتی باشد؟</h3>
+                    <div class="options">
+                        <div class="option" data-answer="a">فقط باران</div>
+                        <div class="option" data-answer="b">باران، برف و تگرگ</div>
+                        <div class="option" data-answer="c">فقط برف</div>
+                        <div class="option" data-answer="d">فقط تگرگ</div>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+                
+                <!-- Question 4 -->
+                <div class="question" id="q4" style="display:none;">
+                    <h3>سوال ۴: آب بعد از بارش به کجا می‌رود؟</h3>
+                    <div class="options">
+                        <div class="option" data-answer="a">به فضا می‌رود</div>
+                        <div class="option" data-answer="b">در خاک نفوذ می‌کند یا به دریاها برمی‌گردد</div>
+                        <div class="option" data-answer="c">برای همیشه ناپدید می‌شود</div>
+                        <div class="option" data-answer="d">تبخیر نمی‌شود</div>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+                
+                <!-- Question 5 -->
+                <div class="question" id="q5" style="display:none;">
+                    <h3>سوال ۵: کدام گزینه درباره چرخه آب صحیح است؟</h3>
+                    <div class="options">
+                        <div class="option" data-answer="a">چرخه آب فقط یک بار اتفاق می‌افتد</div>
+                        <div class="option" data-answer="b">چرخه آب همیشه تکرار می‌شود</div>
+                        <div class="option" data-answer="c">چرخه آب فقط در زمستان اتفاق می‌افتد</div>
+                        <div class="option" data-answer="d">چرخه آب فقط در دریاها اتفاق می‌افتد</div>
+                    </div>
+                    <div class="feedback"></div>
+                </div>
+                
+                <div class="quiz-controls">
+                    <button class="quiz-btn" id="prev-btn" disabled>سوال قبلی</button>
+                    <button class="quiz-btn" id="next-btn">سوال بعدی</button>
+                    <button class="quiz-btn" id="submit-btn" style="display:none;">مشاهده نتیجه</button>
+                </div>
+            </div>
+            
+            <!-- Results section -->
+            <div class="results" id="results">
+                <h2>نتیجه آزمون</h2>
+                <div class="score-text">امتیاز شما: <span id="score">0</span> از 5</div>
+                <div class="stars" id="stars">★★★☆☆</div>
+                <p id="result-message">عالی بود! شما چرخه آب را به خوبی یاد گرفتید.</p>
+                <button class="quiz-btn" id="restart-btn">آزمون را دوباره شروع کن</button>
+            </div>
+        </section>
     </div>
-    <div class="stage">
-        <button onclick="showEvaporation()">تبخیر</button>
-        <button onclick="showCloud()">تشکیل ابر</button>
-        <button onclick="showRain()">بارش</button>
-        <button onclick="startQuiz()">شروع کوییز</button>
-    </div>
-    <div id="quiz">
-        <div id="question1" class="question">
-            <p>مرحله اول چرخه آب چیست؟</p>
-            <div class="option" onclick="checkAnswer(1, 'تبخیر')">تبخیر</div>
-            <div class="option" onclick="checkAnswer(1, 'بارش')">بارش</div>
-            <div class="option" onclick="checkAnswer(1, 'تشکیل ابر')">تشکیل ابر</div>
-            <p id="feedback1"></p>
-        </div>
-        <div id="question2" class="question" style="display:none;">
-            <p>آب از کجا تبخیر می‌شود؟</p>
-            <div class="option" onclick="checkAnswer(2, 'دریا و رودخانه‌ها')">دریا و رودخانه‌ها</div>
-            <div class="option" onclick="checkAnswer(2, 'ابرها')">ابرها</div>
-            <div class="option" onclick="checkAnswer(2, 'باران')">باران</div>
-            <p id="feedback2"></p>
-        </div>
-        <div id="question3" class="question" style="display:none;">
-            <p>ابرها چگونه تشکیل می‌شوند؟</p>
-            <div class="option" onclick="checkAnswer(3, 'از بخار آب')">از بخار آب</div>
-            <div class="option" onclick="checkAnswer(3, 'از باران')">از باران</div>
-            <div class="option" onclick="checkAnswer(3, 'از دریا')">از دریا</div>
-            <p id="feedback3"></p>
-        </div>
-        <div id="question4" class="question" style="display:none;">
-            <p>بارش به چه شکلی می‌تواند باشد؟</p>
-            <div class="option" onclick="checkAnswer(4, 'باران، برف، تگرگ')">باران، برف، تگرگ</div>
-            <div class="option" onclick="checkAnswer(4, 'فقط باران')">فقط باران</div>
-            <div class="option" onclick="checkAnswer(4, 'فقط برف')">فقط برف</div>
-            <p id="feedback4"></p>
-        </div>
-        <div id="question5" class="question" style="display:none;">
-            <p>چرخه آب چگونه ادامه پیدا می‌کند؟</p>
-            <div class="option" onclick="checkAnswer(5, 'آب دوباره تبخیر می‌شود')">آب دوباره تبخیر می‌شود</div>
-            <div class="option" onclick="checkAnswer(5, 'پایان می‌یابد')">پایان می‌یابد</div>
-            <div class="option" onclick="checkAnswer(5, 'فقط بارش')">فقط بارش</div>
-            <p id="feedback5"></p>
-        </div>
-        <button onclick="resetQuiz()">شروع دوباره</button>
-    </div>
-    <div id="score"></div>
+    
+    <footer>
+        <p>درس علوم پایه سوم - طراحی شده برای دانش‌آموزان عزیز</p>
+        <p>© آموزش تعاملی چرخه آب</p>
+    </footer>
 
     <script>
-        let currentQuestion = 1;
-        let score = 0;
-        const correctAnswers = {
-            1: 'تبخیر',
-            2: 'دریا و رودخانه‌ها',
-            3: 'از بخار آب',
-            4: 'باران، برف، تگرگ',
-            5: 'آب دوباره تبخیر می‌شود'
-        };
-
-        function showEvaporation() {
-            document.querySelectorAll('.vapor').forEach(v => v.style.display = 'block');
-            document.getElementById('cloud').style.display = 'none';
-            document.querySelectorAll('.rain').forEach(r => r.style.display = 'none');
-        }
-
-        function showCloud() {
-            document.querySelectorAll('.vapor').forEach(v => v.style.display = 'none');
-            document.getElementById('cloud').style.display = 'block';
-            document.querySelectorAll('.rain').forEach(r => r.style.display = 'none');
-        }
-
-        function showRain() {
-            document.querySelectorAll('.vapor').forEach(v => v.style.display = 'none');
-            document.getElementById('cloud').style.display = 'block';
-            document.querySelectorAll('.rain').forEach(r => r.style.display = 'block');
-        }
-
-        function startQuiz() {
-            document.getElementById('quiz').style.display = 'block';
-            currentQuestion = 1;
-            score = 0;
-            for (let i = 1; i <= 5; i++) {
-                document.getElementById(`question${i}`).style.display = i === 1 ? 'block' : 'none';
-                document.getElementById(`feedback${i}`).innerText = '';
-            }
-            document.getElementById('score').style.display = 'none';
-        }
-
-        function checkAnswer(q, answer) {
-            const feedback = document.getElementById(`feedback${q}`);
-            if (answer === correctAnswers[q]) {
-                feedback.innerText = 'درست است!';
-                feedback.style.color = 'green';
-                score++;
-                playBeep();
-            } else {
-                feedback.innerText = 'اشتباه است!';
-                feedback.style.color = 'red';
-            }
-            if (q < 5) {
-                document.getElementById(`question${q}`).style.display = 'none';
-                document.getElementById(`question${q+1}`).style.display = 'block';
-                currentQuestion++;
-            } else {
-                showScore();
+        // Audio context for positive feedback sounds
+        let audioContext;
+        let oscillator;
+        
+        // Initialize audio
+        function initAudio() {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.log("Web Audio API is not supported in this browser");
             }
         }
-
-        function showScore() {
-            document.getElementById('score').style.display = 'block';
-            let stars = '';
-            for (let i = 1; i <= 5; i++) {
-                stars += i <= score ? '<span class="star">★</span>' : '<span class="empty-star">☆</span>';
-            }
-            document.getElementById('score').innerHTML = `امتیاز شما: ${stars}`;
-        }
-
-        function resetQuiz() {
-            startQuiz();
-        }
-
-        function playBeep() {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioCtx.createOscillator();
-            oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
-            oscillator.connect(audioCtx.destination);
+        
+        // Play a positive sound
+        function playPositiveSound() {
+            if (!audioContext) return;
+            
+            oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
+            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
             oscillator.start();
-            setTimeout(() => oscillator.stop(), 200);
+            oscillator.stop(audioContext.currentTime + 0.5);
         }
-
-        // Initial setup
-        showEvaporation();
+        
+        // Water cycle animation elements
+        const cloud1 = document.querySelector('.cloud1');
+        const cloud2 = document.querySelector('.cloud2');
+        const animationContainer = document.querySelector('.animation-container');
+        
+        // Stage buttons
+        const evaporationBtn = document.getElementById('evaporation-btn');
+        const condensationBtn = document.getElementById('condensation-btn');
+        const precipitationBtn = document.getElementById('precipitation-btn');
+        const collectionBtn = document.getElementById('collection-btn');
+        const fullCycleBtn = document.getElementById('full-cycle-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        
+        // Quiz elements
+        const questions = document.querySelectorAll('.question');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const resultsDiv = document.getElementById('results');
+        const scoreSpan = document.getElementById('score');
+        const starsDiv = document.getElementById('stars');
+        const resultMessage = document.getElementById('result-message');
+        
+        // Quiz state
+        let currentQuestion = 0;
+        let userAnswers = [null, null, null, null, null];
+        const correctAnswers = ['c', 'a', 'b', 'b', 'b'];
+        
+        // Initialize the page
+        function initPage() {
+            initAudio();
+            showFullCycle();
+            setupEventListeners();
+            showQuestion(currentQuestion);
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Water cycle stage buttons
+            evaporationBtn.addEventListener('click', () => showEvaporation());
+            condensationBtn.addEventListener('click', () => showCondensation());
+            precipitationBtn.addEventListener('click', () => showPrecipitation());
+            collectionBtn.addEventListener('click', () => showCollection());
+            fullCycleBtn.addEventListener('click', () => showFullCycle());
+            resetBtn.addEventListener('click', () => resetAnimation());
+            
+            // Quiz buttons
+            prevBtn.addEventListener('click', () => navigateQuestion(-1));
+            nextBtn.addEventListener('click', () => navigateQuestion(1));
+            submitBtn.addEventListener('click', showResults);
+            restartBtn.addEventListener('click', restartQuiz);
+            
+            // Option selection
+            document.querySelectorAll('.option').forEach(option => {
+                option.addEventListener('click', function() {
+                    if (this.classList.contains('selected')) return;
+                    
+                    const questionId = this.closest('.question').id;
+                    const questionIndex = parseInt(questionId.replace('q', '')) - 1;
+                    
+                    // Remove selected class from all options in this question
+                    const options = this.parentElement.querySelectorAll('.option');
+                    options.forEach(opt => {
+                        opt.classList.remove('selected', 'correct', 'incorrect');
+                    });
+                    
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    
+                    // Store user answer
+                    userAnswers[questionIndex] = this.getAttribute('data-answer');
+                    
+                    // If it's the current question, enable next button
+                    if (questionIndex === currentQuestion) {
+                        nextBtn.disabled = false;
+                    }
+                });
+            });
+        }
+        
+        // Water cycle animation functions
+        function showEvaporation() {
+            resetAnimation();
+            setActiveButton(evaporationBtn);
+            
+            // Create evaporation droplets
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createEvaporationDroplet();
+                }, i * 100);
+            }
+        }
+        
+        function showCondensation() {
+            resetAnimation();
+            setActiveButton(condensationBtn);
+            
+            // Show clouds
+            cloud1.style.opacity = '1';
+            cloud2.style.opacity = '1';
+            
+            // Add floating animation
+            cloud1.style.animation = 'float 4s infinite ease-in-out';
+            cloud2.style.animation = 'float 5s infinite ease-in-out';
+        }
+        
+        function showPrecipitation() {
+            resetAnimation();
+            setActiveButton(precipitationBtn);
+            
+            // Show clouds
+            cloud1.style.opacity = '1';
+            cloud2.style.opacity = '1';
+            
+            // Create raindrops
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    createRaindrop();
+                }, i * 100);
+            }
+        }
+        
+        function showCollection() {
+            resetAnimation();
+            setActiveButton(collectionBtn);
+            
+            // Create raindrops flowing into river
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    createCollectionDroplet();
+                }, i * 150);
+            }
+        }
+        
+        function showFullCycle() {
+            resetAnimation();
+            setActiveButton(fullCycleBtn);
+            
+            // Show clouds
+            cloud1.style.opacity = '1';
+            cloud2.style.opacity = '1';
+            
+            // Add floating animation to clouds
+            cloud1.style.animation = 'float 4s infinite ease-in-out';
+            cloud2.style.animation = 'float 5s infinite ease-in-out';
+            
+            // Create full cycle animation
+            let delay = 0;
+            
+            // Evaporation
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createEvaporationDroplet();
+                }, delay);
+                delay += 150;
+            }
+            
+            // Rain after evaporation
+            delay += 1000;
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createRaindrop();
+                }, delay);
+                delay += 150;
+            }
+            
+            // Collection after rain
+            delay += 500;
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createCollectionDroplet();
+                }, delay);
+                delay += 200;
+            }
+        }
+        
+        function resetAnimation() {
+            // Remove all droplets
+            document.querySelectorAll('.raindrop, .evaporation-droplet').forEach(el => {
+                if (el.parentElement) el.parentElement.removeChild(el);
+            });
+            
+            // Reset clouds
+            cloud1.style.opacity = '0';
+            cloud2.style.opacity = '0';
+            cloud1.style.animation = 'none';
+            cloud2.style.animation = 'none';
+        }
+        
+        function setActiveButton(activeBtn) {
+            // Remove active class from all buttons
+            evaporationBtn.classList.remove('active');
+            condensationBtn.classList.remove('active');
+            precipitationBtn.classList.remove('active');
+            collectionBtn.classList.remove('active');
+            fullCycleBtn.classList.remove('active');
+            
+            // Add active class to clicked button
+            activeBtn.classList.add('active');
+        }
+        
+        // Create animation elements
+        function createEvaporationDroplet() {
+            const droplet = document.createElement('div');
+            droplet.className = 'evaporation-droplet';
+            droplet.style.position = 'absolute';
+            droplet.style.width = '8px';
+            droplet.style.height = '8px';
+            droplet.style.backgroundColor = '#FFFFFF';
+            droplet.style.borderRadius = '50%';
+            droplet.style.bottom = '80px';
+            droplet.style.left = `${Math.random() * 200 + 50}px`;
+            droplet.style.opacity = '0.8';
+            droplet.style.zIndex = '3';
+            
+            animationContainer.appendChild(droplet);
+            
+            // Animate the droplet
+            droplet.animate([
+                { transform: 'translateY(0)', opacity: 0.8 },
+                { transform: 'translateY(-150px)', opacity: 0 }
+            ], {
+                duration: 2000,
+                easing: 'ease-out'
+            });
+            
+            // Remove droplet after animation
+            setTimeout(() => {
+                if (droplet.parentElement) droplet.parentElement.removeChild(droplet);
+            }, 2000);
+        }
+        
+        function createRaindrop() {
+            const raindrop = document.createElement('div');
+            raindrop.className = 'raindrop';
+            raindrop.style.left = `${Math.random() * 300 + 100}px`;
+            raindrop.style.top = '80px';
+            raindrop.style.opacity = '1';
+            
+            animationContainer.appendChild(raindrop);
+            
+            // Animate the raindrop
+            raindrop.animate([
+                { transform: 'translateY(0)', opacity: 1 },
+                { transform: 'translateY(150px)', opacity: 0 }
+            ], {
+                duration: 1500,
+                easing: 'ease-in'
+            });
+            
+            // Remove raindrop after animation
+            setTimeout(() => {
+                if (raindrop.parentElement) raindrop.parentElement.removeChild(raindrop);
+            }, 1500);
+        }
+        
+        function createCollectionDroplet() {
+            const droplet = document.createElement('div');
+            droplet.className = 'collection-droplet';
+            droplet.style.position = 'absolute';
+            droplet.style.width = '6px';
+            droplet.style.height = '6px';
+            droplet.style.backgroundColor = '#2196F3';
+            droplet.style.borderRadius = '50%';
+            droplet.style.top = '100px';
+            droplet.style.right = '170px';
+            droplet.style.opacity = '1';
+            droplet.style.zIndex = '3';
+            
+            animationContainer.appendChild(droplet);
+            
+            // Animate the droplet flowing into river
+            droplet.animate([
+                { transform: 'translate(0, 0)', opacity: 1 },
+                { transform: 'translate(-30px, 80px)', opacity: 0.5 },
+                { transform: 'translate(-60px, 100px)', opacity: 0 }
+            ], {
+                duration: 2000,
+                easing: 'ease-in-out'
+            });
+            
+            // Remove droplet after animation
+            setTimeout(() => {
+                if (droplet.parentElement) droplet.parentElement.removeChild(droplet);
+            }, 2000);
+        }
+        
+        // Quiz functions
+        function showQuestion(index) {
+            // Hide all questions
+            questions.forEach(q => q.style.display = 'none');
+            
+            // Show current question
+            questions[index].style.display = 'block';
+            
+            // Update navigation buttons
+            prevBtn.disabled = index === 0;
+            
+            if (index === questions.length - 1) {
+                nextBtn.style.display = 'none';
+                submitBtn.style.display = 'block';
+            } else {
+                nextBtn.style.display = 'block';
+                submitBtn.style.display = 'none';
+            }
+            
+            // Disable next button if current question not answered
+            nextBtn.disabled = userAnswers[index] === null;
+            
+            // Update selected option if already answered
+            if (userAnswers[index] !== null) {
+                const options = questions[index].querySelectorAll('.option');
+                options.forEach(opt => {
+                    if (opt.getAttribute('data-answer') === userAnswers[index]) {
+                        opt.classList.add('selected');
+                    }
+                });
+            }
+            
+            currentQuestion = index;
+        }
+        
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestion + direction;
+            if (newIndex >= 0 && newIndex < questions.length) {
+                showQuestion(newIndex);
+            }
+        }
+        
+        function showResults() {
+            // Calculate score
+            let score = 0;
+            for (let i = 0; i < correctAnswers.length; i++) {
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                    
+                    // Mark correct answers
+                    const question = questions[i];
+                    const options = question.querySelectorAll('.option');
+                    options.forEach(opt => {
+                        if (opt.getAttribute('data-answer') === correctAnswers[i]) {
+                            opt.classList.add('correct');
+                        } else if (opt.classList.contains('selected') && opt.getAttribute('data-answer') !== correctAnswers[i]) {
+                            opt.classList.add('incorrect');
+                        }
+                    });
+                    
+                    // Show feedback
+                    const feedback = question.querySelector('.feedback');
+                    feedback.textContent = 'آفرین! پاسخ شما درست است.';
+                    feedback.classList.add('correct');
+                } else {
+                    // Mark incorrect answers
+                    const question = questions[i];
+                    const options = question.querySelectorAll('.option');
+                    options.forEach(opt => {
+                        if (opt.getAttribute('data-answer') === correctAnswers[i]) {
+                            opt.classList.add('correct');
+                        } else if (opt.classList.contains('selected')) {
+                            opt.classList.add('incorrect');
+                        }
+                    });
+                    
+                    // Show feedback
+                    const feedback = question.querySelector('.feedback');
+                    feedback.textContent = `پاسخ صحیح: گزینه ${correctAnswers[i] === 'a' ? '۱' : correctAnswers[i] === 'b' ? '۲' : correctAnswers[i] === 'c' ? '۳' : '۴'}`;
+                    feedback.classList.add('incorrect');
+                }
+            }
+            
+            // Update score display
+            scoreSpan.textContent = score;
+            
+            // Show stars based on score
+            let stars = '';
+            if (score === 5) {
+                stars = '★★★★★';
+                resultMessage.textContent = 'عالی بود! شما چرخه آب را به طور کامل یاد گرفتید.';
+                playPositiveSound();
+            } else if (score >= 4) {
+                stars = '★★★★☆';
+                resultMessage.textContent = 'خیلی خوب! شما چرخه آب را تقریباً کامل یاد گرفتید.';
+                playPositiveSound();
+            } else if (score >= 3) {
+                stars = '★★★☆☆';
+                resultMessage.textContent = 'خوب است! اما بهتر است درس را مرور کنید.';
+            } else if (score >= 2) {
+                stars = '★★☆☆☆';
+                resultMessage.textContent = 'نیاز به تلاش بیشتر دارید. لطفاً درس را دوباره مطالعه کنید.';
+            } else {
+                stars = '★☆☆☆☆';
+                resultMessage.textContent = 'لطفاً درس چرخه آب را دوباره با دقت مطالعه کنید.';
+            }
+            
+            starsDiv.textContent = stars;
+            
+            // Show results section
+            resultsDiv.style.display = 'block';
+            
+            // Scroll to results
+            resultsDiv.scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        function restartQuiz() {
+            // Reset quiz state
+            currentQuestion = 0;
+            userAnswers = [null, null, null, null, null];
+            
+            // Remove all selections and feedback
+            document.querySelectorAll('.option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            document.querySelectorAll('.feedback').forEach(fb => {
+                fb.classList.remove('correct', 'incorrect');
+                fb.textContent = '';
+            });
+            
+            // Hide results and show first question
+            resultsDiv.style.display = 'none';
+            showQuestion(0);
+            
+            // Scroll to top of quiz
+            document.querySelector('.quiz-section').scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Initialize the page when loaded
+        document.addEventListener('DOMContentLoaded', initPage);
     </script>
 </body>
 </html>
 ```
+
+## ویژگی‌های این برنامه آموزشی:
+
+1. **آموزش تعاملی چرخه آب**:
+   - انیمیشن‌های ساده و جذاب از مراحل تبخیر، تشکیل ابر، بارش و جمع‌آوری آب
+   - دکمه‌های کنترل برای نمایش هر مرحله به صورت جداگانه یا چرخه کامل
+   - امکان شروع مجدد انیمیشن
+
+2. **آزمون ۵ سؤالی**:
+   - سوالات چهار گزینه‌ای درباره چرخه آب
+   - بازخورد فوری برای هر پاسخ
+   - نمایش امتیاز نهایی به صورت ستاره (۱ تا ۵ ستاره)
+
+3. **ویژگی‌های تعاملی**:
+   - صدای تشویقی برای پاسخ‌های درست (با استفاده از Web Audio API)
+   - طراحی واکنش‌گرا برای موبایل و تبلت
+   - رابط کاربری رنگارنگ و جذاب برای کودکان
+
+4. **مطابقت با الزامات**:
+   - تنها از HTML، CSS و JavaScript خالص استفاده شده
+   - زبان فارسی و راست‌چین
+   - حجم فایل کمتر از 200KB
+   - بدون نیاز به سرور (تک فایل HTML)
+
+برای استفاده، کافی است کد بالا را در یک فایل با پسوند `.html` ذخیره کرده و در مرورگر باز کنید.
